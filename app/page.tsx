@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Card, Container, Row, Col, Text, Avatar } from '@nextui-org/react';
+import { Card, Avatar, Badge, Spacer } from '@nextui-org/react';
 
 interface UserData {
   id: number;
@@ -17,65 +17,48 @@ export default function Home() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      if (window.Telegram.WebApp) {
-        if (window.Telegram.WebApp.initDataUnsafe?.user) {
-          setUserData(window.Telegram.WebApp.initDataUnsafe.user);
-        }
+      if (window.Telegram?.WebApp?.initDataUnsafe?.user) {
+        setUserData(window.Telegram.WebApp.initDataUnsafe.user);
       }
     }
   }, []);
-  
+
+  if (!userData) {
+    return (
+      <main className="flex items-center justify-center h-screen p-4 bg-gray-100">
+        <p className="text-lg text-gray-700">Loading...</p>
+      </main>
+    );
+  }
+
+  const fullName = `${userData.first_name}${userData.last_name ? ` ${userData.last_name}` : ''}`;
+  const initial = userData.first_name.charAt(0).toUpperCase();
+
   return (
-    <Container
-      css={{
-        minHeight: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: '2rem',
-        backgroundColor: '$background',
-      }}
-    >
-      {userData ? (
-        <Card css={{ mw: "400px", padding: "1rem" }}>
-          <Card.Header>
-            <Row justify="center" align="center">
-              <Avatar
-                squared
-                size="xl"
-                src={`https://ui-avatars.com/api/?name=${userData.first_name}+${userData.last_name || ''}`}
-                alt="User Avatar"
-                css={{ marginRight: "1rem" }}
-              />
-              <Text h3>{userData.first_name} {userData.last_name || ''}</Text>
-            </Row>
-          </Card.Header>
-          <Card.Body>
-            <Row>
-              <Col>
-                <Text size="$lg">Username:</Text>
-                <Text weight="bold">{userData.username || 'N/A'}</Text>
-              </Col>
-              <Col>
-                <Text size="$lg">Language:</Text>
-                <Text weight="bold">{userData.language_code || 'N/A'}</Text>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Text size="$lg">Premium:</Text>
-                <Text weight="bold">{userData.is_premium ? 'Yes' : 'No'}</Text>
-              </Col>
-              <Col>
-                <Text size="$lg">ID:</Text>
-                <Text weight="bold">{userData.id}</Text>
-              </Col>
-            </Row>
-          </Card.Body>
-        </Card>
-      ) : (
-        <Text h3>Loading...</Text>
-      )}
-    </Container>
+    <main className="p-4 flex justify-center items-center min-h-screen bg-gray-100">
+      <Card
+        className="bg-white rounded-lg shadow-md p-6 max-w-md"
+        variant="shadow"
+      >
+        <Card.Header className="flex flex-col items-center text-center">
+          <Avatar text={initial} size="xl" color="primary" bordered squared />
+          <Spacer y={0.5} />
+          <h1 className="text-2xl font-bold mb-1">{fullName}</h1>
+          {userData.username && (
+            <p className="text-sm text-gray-500">@{userData.username}</p>
+          )}
+          {userData.is_premium && (
+            <Badge color="primary" variant="bordered" className="mt-2">
+              Premium User
+            </Badge>
+          )}
+        </Card.Header>
+        <Card.Body className="py-10 text-center">
+          <p className="text-gray-800 text-md">Language: {userData.language_code || 'N/A'}</p>
+          <Spacer y={0.5} />
+          <p className="text-gray-800 text-md">User ID: {userData.id}</p>
+        </Card.Body>
+      </Card>
+    </main>
   );
 }
