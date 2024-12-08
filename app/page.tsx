@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Card, Container, Row, Col, Text, Avatar } from '@nextui-org/react';
 
 interface UserData {
   id: number;
@@ -25,22 +26,56 @@ export default function Home() {
   }, []);
   
   return (
-    <main className="p-4">
+    <Container
+      css={{
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '2rem',
+        backgroundColor: '$background',
+      }}
+    >
       {userData ? (
-        <>
-          <h1 className="text-2xl font-bold mb-4">User Data</h1>
-          <ul>
-            <li>ID: {userData.id}</li>
-            <li>First Name: {userData.first_name}</li>
-            <li>Last Name: {userData.last_name || 'N/A'}</li>
-            <li>Username: {userData.username || 'N/A'}</li>
-            <li>Language Code: {userData.language_code || 'N/A'}</li>
-            <li>Is Premium: {userData.is_premium ? 'Yes' : 'No'}</li>
-          </ul>
-        </>
+        <Card css={{ mw: "400px", padding: "1rem" }}>
+          <Card.Header>
+            <Row justify="center" align="center">
+              <Avatar
+                squared
+                size="xl"
+                src={`https://ui-avatars.com/api/?name=${userData.first_name}+${userData.last_name || ''}`}
+                alt="User Avatar"
+                css={{ marginRight: "1rem" }}
+              />
+              <Text h3>{userData.first_name} {userData.last_name || ''}</Text>
+            </Row>
+          </Card.Header>
+          <Card.Body>
+            <Row>
+              <Col>
+                <Text size="$lg">Username:</Text>
+                <Text weight="bold">{userData.username || 'N/A'}</Text>
+              </Col>
+              <Col>
+                <Text size="$lg">Language:</Text>
+                <Text weight="bold">{userData.language_code || 'N/A'}</Text>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Text size="$lg">Premium:</Text>
+                <Text weight="bold">{userData.is_premium ? 'Yes' : 'No'}</Text>
+              </Col>
+              <Col>
+                <Text size="$lg">ID:</Text>
+                <Text weight="bold">{userData.id}</Text>
+              </Col>
+            </Row>
+          </Card.Body>
+        </Card>
       ) : (
-        <div>Loading...</div>
+        <Text h3>Loading...</Text>
       )}
-    </main>
+    </Container>
   );
 }
