@@ -14,10 +14,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "export": "dotenv -e .env next build && next export",
-    "deploy": "dotenv -e .env next build && next export && gh-pages -d out"
-    },
+    "lint": "next lint"
+  },
   "devDependencies": {
     "@types/node": "22.10.1",
     "@types/react": "19.0.1",
