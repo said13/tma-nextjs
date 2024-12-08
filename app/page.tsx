@@ -41,14 +41,16 @@ export default function Home() {
       <Card className="bg-white rounded-lg shadow-md p-6 max-w-md">
         {/* Instead of Card.Header */}
         <div className="flex flex-col items-center text-center">
-          <Avatar text={initial} size="xl" color="primary" bordered squared />
+          <Avatar size="sm" color="primary">
+            {initial}
+          </Avatar>
           <Spacer y={0.5} />
           <h1 className="text-2xl font-bold mb-1">{fullName}</h1>
           {userData.username && (
             <p className="text-sm text-gray-500">@{userData.username}</p>
           )}
           {userData.is_premium && (
-            <Badge color="primary" variant="bordered" className="mt-2">
+            <Badge color="primary" className="mt-2">
               Premium User
             </Badge>
           )}
