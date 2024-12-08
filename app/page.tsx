@@ -15,15 +15,21 @@ export default function Home() {
   const [userData, setUserData] = useState<UserData | null>(null);
 
   useEffect(() => {
-    if (
-      typeof window !== 'undefined' &&
-      window.WebApp &&
-      window.WebApp.initDataUnsafe?.user
-    ) {
-      setUserData(window.WebApp.initDataUnsafe.user);
+    if (typeof window !== 'undefined') {
+      if (window.WebApp) {
+        alert('WebApp is defined.');
+        if (window.WebApp.initDataUnsafe?.user) {
+          alert('User data: ' + JSON.stringify(window.WebApp.initDataUnsafe.user));
+          setUserData(window.WebApp.initDataUnsafe.user);
+        } else {
+          alert('No user data found in WebApp.initDataUnsafe');
+        }
+      } else {
+        alert('WebApp is not defined');
+      }
     }
   }, []);
-
+  
   return (
     <main className="p-4">
       {userData ? (
