@@ -17,15 +17,9 @@ export default function Home() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       if (window.Telegram.WebApp) {
-        alert('WebApp is defined.');
         if (window.Telegram.WebApp.initDataUnsafe?.user) {
-          alert('User data: ' + JSON.stringify(window.Telegram.WebApp.initDataUnsafe.user));
           setUserData(window.Telegram.WebApp.initDataUnsafe.user);
-        } else {
-          alert('No user data found in WebApp.initDataUnsafe');
         }
-      } else {
-        alert('WebApp is not defined');
       }
     }
   }, []);
