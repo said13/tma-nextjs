@@ -12,35 +12,35 @@ interface UserData {
   is_premium?: boolean;
 }
 
+const mockUser: UserData = {
+  id: 0,
+  first_name: 'Guest',
+  last_name: undefined,
+  username: undefined,
+  language_code: 'en',
+  is_premium: false,
+};
+
 export default function Home() {
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const [userData, setUserData] = useState<UserData>(mockUser);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      if (window.Telegram?.WebApp?.initDataUnsafe?.user) {
-        setUserData(window.Telegram.WebApp.initDataUnsafe.user);
+      const realUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
+      if (realUser) {
+        setUserData(realUser);
       }
     }
   }, []);
-
-  if (!userData) {
-    return (
-      <main className="flex items-center justify-center h-screen p-4 bg-gray-100">
-        <p className="text-lg text-gray-700">Loading...</p>
-      </main>
-    );
-  }
 
   const fullName = `${userData.first_name}${userData.last_name ? ` ${userData.last_name}` : ''}`;
   const initial = userData.first_name.charAt(0).toUpperCase();
 
   return (
     <main className="p-4 flex justify-center items-center min-h-screen bg-gray-100">
-      <Card
-        className="bg-white rounded-lg shadow-md p-6 max-w-md"
-        variant="shadow"
-      >
-        <Card.Header className="flex flex-col items-center text-center">
+      <Card className="bg-white rounded-lg shadow-md p-6 max-w-md">
+        {/* Instead of Card.Header */}
+        <div className="flex flex-col items-center text-center">
           <Avatar text={initial} size="xl" color="primary" bordered squared />
           <Spacer y={0.5} />
           <h1 className="text-2xl font-bold mb-1">{fullName}</h1>
@@ -52,12 +52,14 @@ export default function Home() {
               Premium User
             </Badge>
           )}
-        </Card.Header>
-        <Card.Body className="py-10 text-center">
+        </div>
+
+        {/* Instead of Card.Body */}
+        <div className="py-10 text-center">
           <p className="text-gray-800 text-md">Language: {userData.language_code || 'N/A'}</p>
           <Spacer y={0.5} />
           <p className="text-gray-800 text-md">User ID: {userData.id}</p>
-        </Card.Body>
+        </div>
       </Card>
     </main>
   );
