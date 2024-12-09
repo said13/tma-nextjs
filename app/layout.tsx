@@ -3,6 +3,9 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Script from 'next/script';
 
+import BottomNav from '@/components/bottom-nav';
+import MaxWidthWrapper from '@/components/max-width-wrapper';
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -30,10 +33,13 @@ export default function RootLayout({
         <Script src="https://telegram.org/js/telegram-web-app.js" strategy="beforeInteractive"/>
         <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <MaxWidthWrapper>
+          <div className="flex">
+            <main className="flex-1">{children}</main>
+          </div>
+        </MaxWidthWrapper>
+        <BottomNav />
         <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
       </body>
     </html>
