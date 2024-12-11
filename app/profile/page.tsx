@@ -25,11 +25,22 @@ export default function Home() {
   const [userData, setUserData] = useState<UserData>(mockUser);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const realUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
+    if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
+      const { WebApp } = window.Telegram;
+
+      // Set up Telegram Web App swipe behavior
+      WebApp.setSwipeBackAllowed(false); // Disable swipe-back behavior
+
+      // Initialize user data from Telegram Web App
+      const realUser = WebApp.initDataUnsafe?.user;
       if (realUser) {
         setUserData(realUser);
       }
+
+      return () => {
+        // Reset swipe-back behavior on unmount
+        WebApp.setSwipeBackAllowed(true);
+      };
     }
   }, []);
 
