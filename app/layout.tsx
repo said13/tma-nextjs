@@ -5,6 +5,7 @@ import Script from 'next/script';
 
 import BottomNav from '@/components/bottom-nav';
 import MaxWidthWrapper from '@/components/max-width-wrapper';
+import WebApp from '@twa-dev/sdk'
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -22,6 +23,8 @@ export const metadata: Metadata = {
   description: "A simple Telegram mini app using Next js 14",
 };
 
+// WebApp.disableVerticalSwipes()
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -30,7 +33,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <Script src="https://telegram.org/js/telegram-web-app.js" strategy="beforeInteractive"/>
         <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
