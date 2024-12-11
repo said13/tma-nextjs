@@ -39,7 +39,7 @@ export default function Home() {
 
       return () => {
         // Reset swipe-back behavior on unmount
-        WebApp.setSwipeBackAllowed(true);
+        // WebApp.setSwipeBackAllowed(true);
       };
     }
   }, []);
